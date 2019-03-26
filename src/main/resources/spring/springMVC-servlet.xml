@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+	<context:component-scan base-package="com.booway.controller"></context:component-scan>
+
+	<bean id="formattingConversionService"
+		class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+		<property name="formatters">
+			<set>
+				<bean class="com.booway.convert.DateFormatter">
+					<constructor-arg name="datePattern" value="yyyy-MM-dd HH:mm:ss"></constructor-arg>
+				</bean>
+			</set>
+		</property>
+	</bean>
+
+	<!-- 开启mvc注解，可使用@DateTimeFormat,@NumberFormat -->
+	<mvc:annotation-driven conversion-service="formattingConversionService"></mvc:annotation-driven>
+
+
+	<mvc:interceptors>
+		<!-- 使用bean定义一个Interceptor，直接定义在mvc:interceptors根下面的Interceptor将拦截所有的请求 -->
+		<!-- <bean class="com.bybo.aca.web.interceptor.Login"/> -->
+		<mvc:interceptor>
+			<!-- 进行拦截：/**表示拦截所有controller -->
+			<mvc:mapping path="/baby/**" />
+			<mvc:mapping path="/activity/**" />
+			<mvc:mapping path="/vote/**" />
+			<!-- 不进行拦截 -->
+			<mvc:exclude-mapping path="/baby/authorize" />
+			<ref bean="authorizeIntercepter"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<!-- 配置默认servlet静态资源访问 -->
+    <mvc:default-servlet-handler/>
+
+	<!-- <mvc:resources location="/WEB-INF/css/" mapping="/css/**"></mvc:resources>
+	<mvc:resources location="/WEB-INF/js/" mapping="/js/**"></mvc:resources>
+	<mvc:resources location="/WEB-INF/img/" mapping="/img/**"></mvc:resources> -->
+
+	<bean id="internalResourceViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView"></property>
+		<property name="prefix" value="/"></property>
+		<property name="suffix" value=".jsp"></property>
+	</bean>
+	
+	<!-- 定义文件上传解析器 -->
+    <bean id="multipartResolver" 
+    	class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 设定默认编码 -->
+        <property name="defaultEncoding" value="UTF-8"></property>
+        <!-- 设定文件上传的最大值3MB，3*1024*1024 -->
+        <property name="maxUploadSize" value="3145728"></property>
+    </bean>
+
+</beans>

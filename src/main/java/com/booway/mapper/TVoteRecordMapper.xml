@@ -1,0 +1,274 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.booway.mapper.TVoteRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.booway.pojo.TVoteRecord" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="VOTE_OPEN_ID" property="voteOpenId" jdbcType="VARCHAR" />
+    <result column="VOTE_UNION_ID" property="voteUnionId" jdbcType="VARCHAR" />
+    <result column="ENTER_USER_ID" property="enterUserId" jdbcType="INTEGER" />
+    <result column="ENTER_OPEN_ID" property="enterOpenId" jdbcType="VARCHAR" />
+    <result column="ENTER_UNION_ID" property="enterUnionId" jdbcType="VARCHAR" />
+    <result column="VOTE_TIME" property="voteTime" jdbcType="TIMESTAMP" />
+    <result column="VOTE_NUM" property="voteNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, VOTE_OPEN_ID, VOTE_UNION_ID, ENTER_USER_ID, ENTER_OPEN_ID, ENTER_UNION_ID, VOTE_TIME, 
+    VOTE_NUM
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.booway.pojo.TVoteRecordExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_vote_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_vote_record
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_vote_record
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.booway.pojo.TVoteRecordExample" >
+    delete from t_vote_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.booway.pojo.TVoteRecord" >
+  	
+  	<selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+  </selectKey>
+  
+    insert into t_vote_record (ID, VOTE_OPEN_ID, VOTE_UNION_ID, 
+      ENTER_USER_ID, ENTER_OPEN_ID, ENTER_UNION_ID, 
+      VOTE_TIME, VOTE_NUM)
+    values (#{id,jdbcType=INTEGER}, #{voteOpenId,jdbcType=VARCHAR}, #{voteUnionId,jdbcType=VARCHAR}, 
+      #{enterUserId,jdbcType=INTEGER}, #{enterOpenId,jdbcType=VARCHAR}, #{enterUnionId,jdbcType=VARCHAR}, 
+      #{voteTime,jdbcType=TIMESTAMP}, #{voteNum,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.booway.pojo.TVoteRecord" >
+  
+  <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+  </selectKey>
+  
+    insert into t_vote_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="voteOpenId != null" >
+        VOTE_OPEN_ID,
+      </if>
+      <if test="voteUnionId != null" >
+        VOTE_UNION_ID,
+      </if>
+      <if test="enterUserId != null" >
+        ENTER_USER_ID,
+      </if>
+      <if test="enterOpenId != null" >
+        ENTER_OPEN_ID,
+      </if>
+      <if test="enterUnionId != null" >
+        ENTER_UNION_ID,
+      </if>
+      <if test="voteTime != null" >
+        VOTE_TIME,
+      </if>
+      <if test="voteNum != null" >
+        VOTE_NUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="voteOpenId != null" >
+        #{voteOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="voteUnionId != null" >
+        #{voteUnionId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterUserId != null" >
+        #{enterUserId,jdbcType=INTEGER},
+      </if>
+      <if test="enterOpenId != null" >
+        #{enterOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterUnionId != null" >
+        #{enterUnionId,jdbcType=VARCHAR},
+      </if>
+      <if test="voteTime != null" >
+        #{voteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="voteNum != null" >
+        #{voteNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.booway.pojo.TVoteRecordExample" resultType="java.lang.Integer" >
+    select count(*) from t_vote_record
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_vote_record
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.voteOpenId != null" >
+        VOTE_OPEN_ID = #{record.voteOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.voteUnionId != null" >
+        VOTE_UNION_ID = #{record.voteUnionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterUserId != null" >
+        ENTER_USER_ID = #{record.enterUserId,jdbcType=INTEGER},
+      </if>
+      <if test="record.enterOpenId != null" >
+        ENTER_OPEN_ID = #{record.enterOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterUnionId != null" >
+        ENTER_UNION_ID = #{record.enterUnionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.voteTime != null" >
+        VOTE_TIME = #{record.voteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.voteNum != null" >
+        VOTE_NUM = #{record.voteNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_vote_record
+    set ID = #{record.id,jdbcType=INTEGER},
+      VOTE_OPEN_ID = #{record.voteOpenId,jdbcType=VARCHAR},
+      VOTE_UNION_ID = #{record.voteUnionId,jdbcType=VARCHAR},
+      ENTER_USER_ID = #{record.enterUserId,jdbcType=INTEGER},
+      ENTER_OPEN_ID = #{record.enterOpenId,jdbcType=VARCHAR},
+      ENTER_UNION_ID = #{record.enterUnionId,jdbcType=VARCHAR},
+      VOTE_TIME = #{record.voteTime,jdbcType=TIMESTAMP},
+      VOTE_NUM = #{record.voteNum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.booway.pojo.TVoteRecord" >
+    update t_vote_record
+    <set >
+      <if test="voteOpenId != null" >
+        VOTE_OPEN_ID = #{voteOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="voteUnionId != null" >
+        VOTE_UNION_ID = #{voteUnionId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterUserId != null" >
+        ENTER_USER_ID = #{enterUserId,jdbcType=INTEGER},
+      </if>
+      <if test="enterOpenId != null" >
+        ENTER_OPEN_ID = #{enterOpenId,jdbcType=VARCHAR},
+      </if>
+      <if test="enterUnionId != null" >
+        ENTER_UNION_ID = #{enterUnionId,jdbcType=VARCHAR},
+      </if>
+      <if test="voteTime != null" >
+        VOTE_TIME = #{voteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="voteNum != null" >
+        VOTE_NUM = #{voteNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.booway.pojo.TVoteRecord" >
+    update t_vote_record
+    set VOTE_OPEN_ID = #{voteOpenId,jdbcType=VARCHAR},
+      VOTE_UNION_ID = #{voteUnionId,jdbcType=VARCHAR},
+      ENTER_USER_ID = #{enterUserId,jdbcType=INTEGER},
+      ENTER_OPEN_ID = #{enterOpenId,jdbcType=VARCHAR},
+      ENTER_UNION_ID = #{enterUnionId,jdbcType=VARCHAR},
+      VOTE_TIME = #{voteTime,jdbcType=TIMESTAMP},
+      VOTE_NUM = #{voteNum,jdbcType=INTEGER}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  
+  
+  
+</mapper>

@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.booway.mapper.TEnterUserMapper" >
+  <resultMap id="BaseResultMap" type="com.booway.pojo.TEnterUser" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="OPEN_ID" property="openId" jdbcType="VARCHAR" />
+    <result column="UNION_ID" property="unionId" jdbcType="VARCHAR" />
+    <result column="ORDER_CODE" property="orderCode" jdbcType="INTEGER" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="VOTE_NUM" property="voteNum" jdbcType="INTEGER" />
+    <result column="PIC_URL" property="picUrl" jdbcType="VARCHAR" />
+    <result column="EXAMINE_STATE" property="examineState" jdbcType="VARCHAR" />
+    <result column="LINKMAN" property="linkman" jdbcType="VARCHAR" />
+    <result column="PHONE_NUM" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="CRT_TIME" property="crtTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, OPEN_ID, UNION_ID, ORDER_CODE, USER_NAME, VOTE_NUM, PIC_URL, EXAMINE_STATE, LINKMAN, 
+    PHONE_NUM, CRT_TIME, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.booway.pojo.TEnterUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_enter_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_enter_user
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_enter_user
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.booway.pojo.TEnterUserExample" >
+    delete from t_enter_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.booway.pojo.TEnterUser" >
+  
+  <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+  </selectKey>
+  
+    insert into t_enter_user (ID, OPEN_ID, UNION_ID, 
+      ORDER_CODE, USER_NAME, VOTE_NUM, 
+      PIC_URL, EXAMINE_STATE, LINKMAN, 
+      PHONE_NUM, CRT_TIME, UPDATE_TIME
+      )
+    values (#{id,jdbcType=INTEGER}, #{openId,jdbcType=VARCHAR}, #{unionId,jdbcType=VARCHAR}, 
+      #{orderCode,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{voteNum,jdbcType=INTEGER}, 
+      #{picUrl,jdbcType=VARCHAR}, #{examineState,jdbcType=VARCHAR}, #{linkman,jdbcType=VARCHAR}, 
+      #{phoneNum,jdbcType=VARCHAR}, #{crtTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+      )
+      
+  </insert>
+  <insert id="insertSelective" parameterType="com.booway.pojo.TEnterUser" >
+  
+  <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Integer">
+            SELECT LAST_INSERT_ID()
+  </selectKey>
+  
+    insert into t_enter_user
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="openId != null" >
+        OPEN_ID,
+      </if>
+      <if test="unionId != null" >
+        UNION_ID,
+      </if>
+      <if test="orderCode != null" >
+        ORDER_CODE,
+      </if>
+      <if test="userName != null" >
+        USER_NAME,
+      </if>
+      <if test="voteNum != null" >
+        VOTE_NUM,
+      </if>
+      <if test="picUrl != null" >
+        PIC_URL,
+      </if>
+      <if test="examineState != null" >
+        EXAMINE_STATE,
+      </if>
+      <if test="linkman != null" >
+        LINKMAN,
+      </if>
+      <if test="phoneNum != null" >
+        PHONE_NUM,
+      </if>
+      <if test="crtTime != null" >
+        CRT_TIME,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="openId != null" >
+        #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null" >
+        #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null" >
+        #{orderCode,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="voteNum != null" >
+        #{voteNum,jdbcType=INTEGER},
+      </if>
+      <if test="picUrl != null" >
+        #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="examineState != null" >
+        #{examineState,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null" >
+        #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null" >
+        #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.booway.pojo.TEnterUserExample" resultType="java.lang.Integer" >
+    select count(*) from t_enter_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_enter_user
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.openId != null" >
+        OPEN_ID = #{record.openId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.unionId != null" >
+        UNION_ID = #{record.unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderCode != null" >
+        ORDER_CODE = #{record.orderCode,jdbcType=INTEGER},
+      </if>
+      <if test="record.userName != null" >
+        USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.voteNum != null" >
+        VOTE_NUM = #{record.voteNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.picUrl != null" >
+        PIC_URL = #{record.picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="record.examineState != null" >
+        EXAMINE_STATE = #{record.examineState,jdbcType=VARCHAR},
+      </if>
+      <if test="record.linkman != null" >
+        LINKMAN = #{record.linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="record.phoneNum != null" >
+        PHONE_NUM = #{record.phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.crtTime != null" >
+        CRT_TIME = #{record.crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_enter_user
+    set ID = #{record.id,jdbcType=INTEGER},
+      OPEN_ID = #{record.openId,jdbcType=VARCHAR},
+      UNION_ID = #{record.unionId,jdbcType=VARCHAR},
+      ORDER_CODE = #{record.orderCode,jdbcType=INTEGER},
+      USER_NAME = #{record.userName,jdbcType=VARCHAR},
+      VOTE_NUM = #{record.voteNum,jdbcType=INTEGER},
+      PIC_URL = #{record.picUrl,jdbcType=VARCHAR},
+      EXAMINE_STATE = #{record.examineState,jdbcType=VARCHAR},
+      LINKMAN = #{record.linkman,jdbcType=VARCHAR},
+      PHONE_NUM = #{record.phoneNum,jdbcType=VARCHAR},
+      CRT_TIME = #{record.crtTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.booway.pojo.TEnterUser" >
+    update t_enter_user
+    <set >
+      <if test="openId != null" >
+        OPEN_ID = #{openId,jdbcType=VARCHAR},
+      </if>
+      <if test="unionId != null" >
+        UNION_ID = #{unionId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderCode != null" >
+        ORDER_CODE = #{orderCode,jdbcType=INTEGER},
+      </if>
+      <if test="userName != null" >
+        USER_NAME = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="voteNum != null" >
+        VOTE_NUM = #{voteNum,jdbcType=INTEGER},
+      </if>
+      <if test="picUrl != null" >
+        PIC_URL = #{picUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="examineState != null" >
+        EXAMINE_STATE = #{examineState,jdbcType=VARCHAR},
+      </if>
+      <if test="linkman != null" >
+        LINKMAN = #{linkman,jdbcType=VARCHAR},
+      </if>
+      <if test="phoneNum != null" >
+        PHONE_NUM = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if test="crtTime != null" >
+        CRT_TIME = #{crtTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.booway.pojo.TEnterUser" >
+    update t_enter_user
+    set OPEN_ID = #{openId,jdbcType=VARCHAR},
+      UNION_ID = #{unionId,jdbcType=VARCHAR},
+      ORDER_CODE = #{orderCode,jdbcType=INTEGER},
+      USER_NAME = #{userName,jdbcType=VARCHAR},
+      VOTE_NUM = #{voteNum,jdbcType=INTEGER},
+      PIC_URL = #{picUrl,jdbcType=VARCHAR},
+      EXAMINE_STATE = #{examineState,jdbcType=VARCHAR},
+      LINKMAN = #{linkman,jdbcType=VARCHAR},
+      PHONE_NUM = #{phoneNum,jdbcType=VARCHAR},
+      CRT_TIME = #{crtTime,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="getSortNum" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+  		select count(*)+1 from t_enter_user where VOTE_NUM>#{_parameter}
+  </select>
+  
+  
+  <resultMap id="BaseResultMapVO" type="com.booway.vo.EnterUserVo" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="OPEN_ID" property="openId" jdbcType="VARCHAR" />
+    <result column="UNION_ID" property="unionId" jdbcType="VARCHAR" />
+    <result column="ORDER_CODE" property="orderCode" jdbcType="INTEGER" />
+    <result column="USER_NAME" property="userName" jdbcType="VARCHAR" />
+    <result column="VOTE_NUM_AS" property="voteNum" jdbcType="INTEGER" />
+    <result column="PIC_URL" property="picUrl" jdbcType="VARCHAR" />
+    <result column="EXAMINE_STATE" property="examineState" jdbcType="VARCHAR" />
+    <result column="LINKMAN" property="linkman" jdbcType="VARCHAR" />
+    <result column="PHONE_NUM" property="phoneNum" jdbcType="INTEGER" />
+    <result column="CRT_TIME" property="crtTime" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="SORT_NUM" property="sortNum" jdbcType="INTEGER" />
+  </resultMap>
+  
+  
+  <sql id="Base_Column_List_Vo" >
+    ID, OPEN_ID, UNION_ID, ORDER_CODE, USER_NAME, VOTE_NUM as VOTE_NUM_AS, PIC_URL, EXAMINE_STATE, LINKMAN, 
+    PHONE_NUM, CRT_TIME, UPDATE_TIME, (select count(*) from t_enter_user a where a.VOTE_NUM > VOTE_NUM_AS) as SORT_NUM
+  </sql>
+  
+    <select id="selectSortByExample" resultMap="BaseResultMapVO" parameterType="com.booway.pojo.TEnterUserExample" >
+    select * from (select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List_Vo" />
+    from t_enter_user
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+    ) t order by t.SORT_NUM
+    
+  </select>
+  
+  <select id="getMaxNum" resultType="java.lang.Integer" >
+  		select max(ORDER_CODE) from t_enter_user
+  </select>
+  
+</mapper>
