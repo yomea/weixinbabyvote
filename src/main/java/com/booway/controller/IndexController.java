@@ -1,6 +1,8 @@
 package com.booway.controller;
 
 import java.net.URLDecoder;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -19,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.booway.mapper.TEnterUserMapper;
 import com.booway.pojo.TEnterUser;
+import com.booway.query.QueryMap;
 import com.booway.service.IndexService;
 import com.booway.utils.PageObj;
 import com.booway.utils.RestObj;
@@ -31,6 +35,9 @@ public class IndexController {
 
 	@Autowired
 	private IndexService indexService;
+	
+	@Autowired
+	private TEnterUserMapper mapper;
 	
 	private Lock lock = new ReentrantLock();
 	
@@ -46,6 +53,15 @@ public class IndexController {
 				1, 10);
 		model.addAttribute("babyList", users);
 		return "index";
+	}
+	
+	@RequestMapping("/test")
+	@ResponseBody
+	public List<LinkedHashMap<String, Object>> test(String userName) {
+		QueryMap<String, Object> queryMap = new QueryMap<>();
+		queryMap.put("USER_NAME", userName);
+		List<LinkedHashMap<String, Object>> mapList = mapper.select("select * from t_enter_user", queryMap);
+		return mapList;
 	}
 
 	/**
