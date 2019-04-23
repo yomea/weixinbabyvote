@@ -21,7 +21,7 @@
             <property name="dialect" value="mysql" />
         </plugin>
         
-        <plugin interceptor="com.booway.intercepter.CustomInterface">
+        <plugin interceptor="com.booway.intercepter.CommonDataQueryInterceptor">
           
         </plugin>
         

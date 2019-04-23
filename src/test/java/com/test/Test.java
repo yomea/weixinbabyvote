@@ -1,6 +1,7 @@
 package com.test;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -28,6 +29,8 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.ClassUtils;
 
+import com.test.enum_test.ParentAnnotation;
+
 @Controller
 public class Test {
 	
@@ -39,10 +42,13 @@ public class Test {
 		for(Entry entry : pe.entrySet()) {
 			System.out.println(entry);
 		}*/
-		MetaObject metaObject = MetaObject.forObject(1, new DefaultObjectFactory(), new DefaultObjectWrapperFactory(), new DefaultReflectorFactory());
+//		MetaObject metaObject = MetaObject.forObject(1, new DefaultObjectFactory(), new DefaultObjectWrapperFactory(), new DefaultReflectorFactory());
+//		
+//		metaObject.getValue("id");
 		
-		metaObject.getValue("id");
-		
+		Annotation[] annotations = Test10.class.getAnnotations();
+		Annotation annotation = annotations[3];
+		System.out.println(annotation.annotationType().isAnnotationPresent(ParentAnnotation.class));
 	}
 
 	public Integer getAge() {

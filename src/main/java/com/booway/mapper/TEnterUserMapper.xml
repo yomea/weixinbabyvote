@@ -6,6 +6,23 @@
 	
 </select>
 
+<select id="select2"  resultType="java.util.LinkedHashMap">
+	
+	${sql}
+	
+	<where>
+		<if test="conditions != null and conditions.size() > 0">
+		
+			<foreach collection="conditions" item="condition" separator="and"  index="index" >
+				${condition.column} ${condition.operate} #{queryMap.${condition.column}}
+			</foreach>
+	</if>
+	
+	</where>
+	
+	
+</select>
+
 
   <resultMap id="BaseResultMap" type="com.booway.pojo.TEnterUser" >
     <id column="ID" property="id" jdbcType="INTEGER" />

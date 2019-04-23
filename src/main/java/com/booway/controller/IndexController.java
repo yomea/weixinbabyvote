@@ -1,6 +1,8 @@
 package com.booway.controller;
 
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,9 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.booway.bo.QueryCondition;
 import com.booway.mapper.TEnterUserMapper;
 import com.booway.pojo.TEnterUser;
-import com.booway.query.QueryMap;
 import com.booway.service.IndexService;
 import com.booway.utils.PageObj;
 import com.booway.utils.RestObj;
@@ -55,12 +57,52 @@ public class IndexController {
 		return "index";
 	}
 	
+	@RequestMapping("/haha")
+	@ResponseBody
+	public PageObj<TEnterUser> haha(Model model) throws Exception {
+		PageObj<TEnterUser> users = indexService.queryEnterUsers(null,
+				1, 10);
+		return users;
+	}
+	
 	@RequestMapping("/test")
 	@ResponseBody
-	public List<LinkedHashMap<String, Object>> test(String userName) {
-		QueryMap<String, Object> queryMap = new QueryMap<>();
-		queryMap.put("USER_NAME", userName);
-		List<LinkedHashMap<String, Object>> mapList = mapper.select("select * from t_enter_user", queryMap);
+	public List<LinkedHashMap<String, Object>> test(Long id, String userName) {
+		List<QueryCondition> conditions = new ArrayList<>();
+		QueryCondition qc1 = new QueryCondition();
+		qc1.setColumn("USER_NAME");
+		qc1.setOperate("like");
+		qc1.setValue("%" + userName + "%");
+		conditions.add(qc1);
+		QueryCondition qc2 = new QueryCondition();
+		qc2.setColumn("id");
+		qc2.setOperate(">");
+		qc2.setValue(id);
+		conditions.add(qc2);
+		List<LinkedHashMap<String, Object>> mapList = mapper.select("select * from t_enter_user", conditions);
+		return mapList;
+	}
+	
+	
+	@RequestMapping("/test2")
+	@ResponseBody
+	public List<LinkedHashMap<String, Object>> test2(Long id, String userName) {
+		List<QueryCondition> conditions = new ArrayList<>();
+		QueryCondition qc1 = new QueryCondition();
+		qc1.setColumn("USER_NAME");
+		qc1.setOperate("like");
+		qc1.setValue("%" + userName + "%");
+		conditions.add(qc1);
+		QueryCondition qc2 = new QueryCondition();
+		qc2.setColumn("id");
+		qc2.setOperate(">");
+		qc2.setValue(id);
+		conditions.add(qc2);
+		Map<String,Object> params = new HashMap<String, Object>();
+		params.put("USER_NAME", "%" + userName + "%");
+		params.put("id", id);
+		
+		List<LinkedHashMap<String, Object>> mapList = mapper.select2("select * from t_enter_user", conditions, params);
 		return mapList;
 	}
 

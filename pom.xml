@@ -194,8 +194,8 @@
 				</configuration>
 			</plugin>
 			<!-- 配置Tomcat插件 -->
-			<plugin>
-				<!-- 命令为clean tomcat7:run -->
+			<!-- <plugin>
+				命令为clean tomcat7:run
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<configuration>
@@ -203,7 +203,7 @@
 					<path>/</path>
 				</configuration>
 				<version>2.2</version>
-			</plugin>
+			</plugin> -->
 		</plugins>
 	</build>
 </project>

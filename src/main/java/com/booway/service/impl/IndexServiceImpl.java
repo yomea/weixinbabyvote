@@ -60,6 +60,12 @@ public class IndexServiceImpl implements IndexService {
 	@Value("${grant_type_authorization_code_url}")
 	private String authorUrl;
 	
+	@Autowired
+	public IndexServiceImpl(TEnterUserMapper userMapper) {
+		//测试
+		System.out.println(userMapper);
+	}
+	
 	@Transactional(rollbackFor={Exception.class})
 	@Override
 	public PageObj<TEnterUser> queryEnterUsers(String username, int pageNum, int pageSize) throws Exception{

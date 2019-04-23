@@ -36,7 +36,7 @@ public class CommonConversionService extends DefaultConversionService {
 		
 		String convertedSource = parseStr(source);
 		
-		return convert(convertedSource, sourceType, targetType);
+		return convert(convertedSource, TypeDescriptor.valueOf(String.class), targetType);
 	}
 	
 	private String parseStr(Object objIn) {

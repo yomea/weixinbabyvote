@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 
 public class StringToDateConverter implements Converter<String, Date> {
 
-		private static Pattern pattern = Pattern.compile("([0-9]+)[^0-9]+?([0-9]+)[^0-9]+?([0-9]+)[^0-9]+?(?:([0-9]+)[^0-9]+?([0-9]+)[^0-9]+?([0-9]+))?");
+		private static Pattern pattern = Pattern.compile("([0-9]+)[^0-9]+?([0-9]+)[^0-9]+?([0-9]+)(?:[^0-9]+?([0-9]+)[^0-9]+?([0-9]+)[^0-9]+?([0-9]+))?");
 	
 		@Override
 		public Date convert(String source) {
@@ -33,20 +33,19 @@ public class StringToDateConverter implements Converter<String, Date> {
 			Matcher matcher = pattern.matcher(source);
 			
 			if(matcher.matches()) {
-				int totalGroup = matcher.groupCount();
 				String year = matcher.group(1);
 				String month = matcher.group(2);
 				String day = matcher.group(3);
-				String hours = "00";
-				String minutes = "00";
-				String seconds = "00";
-				if(totalGroup > 3) {
-					hours = matcher.group(4);
-					minutes = matcher.group(5);
-					seconds = matcher.group(6);
-				}
+				String hour = matcher.group(4);
+				String minute =  matcher.group(5);
+				String second = matcher.group(6);
 				
-				String[] timeElements = new String[]{year, month, day, hours, minutes, seconds};
+				hour = hour == null ? "00" : hour;
+				minute = minute == null ? "00" : minute;
+				second = second == null ? "00" : second;
+			
+				
+				String[] timeElements = new String[]{year, month, day, hour, minute, second};
 				String[] patternDesc = new String[]{"y", "M", "d", "H", "m", "s"};
 				
 				StringBuilder adjustStr = new StringBuilder();
